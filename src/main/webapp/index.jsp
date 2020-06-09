@@ -22,7 +22,7 @@
     <label for="pass">Password</label><br>
     <input type="password" id="pass" name="password"><br>
     remember:<input type="checkbox" name="remember">;
-    <input type="submit" name="SUBMIT">
+    <input type="submit" name="submit">
     ​<a href="forget-password.jsp">forget password?</a>
     <p>Registration Service <a href="registration.jsp">register</a></p>
 </form>

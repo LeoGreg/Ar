@@ -27,6 +27,23 @@
 
 
 
+    <servlet>
+        <servlet-name>Note</servlet-name>
+        <servlet-class>am.basic.jdbcStart.controller.NoteServlet</servlet-class>
+    </servlet>
+    ​
+    <servlet-mapping>
+        <servlet-name>Note</servlet-name>
+        <url-pattern>/note</url-pattern>
+    </servlet-mapping>
+
+
+
+
+
+
+
+
 
     <servlet>
         <servlet-name>ChangeSystemServlet</servlet-name>

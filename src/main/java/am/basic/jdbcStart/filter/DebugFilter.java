@@ -16,7 +16,7 @@ public class DebugFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        printRequest((HttpServletRequest) request);
+//        printRequest((HttpServletRequest) request);
         filterChain.doFilter(request, response);
     }
 

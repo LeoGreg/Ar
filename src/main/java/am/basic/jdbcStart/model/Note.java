@@ -3,15 +3,18 @@ package am.basic.jdbcStart.model;
 import java.util.Objects;
 
 public class Note {
-    private int userId;
+    private int note_id;
     private String writing;
+    private String title;
+    private int user_id;
+    private String time;
 
-    public int getUserId() {
-        return userId;
+    public int getNote_id() {
+        return note_id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setNote_id(int note_id) {
+        this.note_id = note_id;
     }
 
     public String getWriting() {
@@ -22,26 +25,35 @@ public class Note {
         this.writing = writing;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Note note = (Note) o;
-        return userId == note.userId &&
-                Objects.equals(note, note.writing);
+    public String getTitle() {
+        return title;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, writing);
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @Override
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public String toString() {
-        return "id{" +
-                "id=" + userId +
-                ", note='" + writing + '\'' +
-
-                '}';
+        return
+               "\n"+
+                       "TITLE :" + title + " NOTE :" + writing +
+                       "\n ";
     }
 }
+

@@ -1,19 +1,25 @@
 package am.basic.jdbcStart.service;
 
+import am.basic.jdbcStart.model.Note;
 import am.basic.jdbcStart.model.User;
 import am.basic.jdbcStart.model.exceptions.*;
+import am.basic.jdbcStart.repository.NoteRepository;
 import am.basic.jdbcStart.repository.UserRepository;
 import am.basic.jdbcStart.util.*;
 import am.basic.jdbcStart.util.Encoding.Md5Encoder;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static am.basic.jdbcStart.util.Constants.Message.*;
 
 
 public class UserManager {
     private UserRepository userRepository = new UserRepository(new DataSource());
+    private NoteRepository noteRepository = new NoteRepository(new DataSource());
 
     public void register(User user) throws SQLException, DuplicateDataError, InternalServerError {
 
@@ -117,6 +123,52 @@ public class UserManager {
     }
 
 
+    public void add(String username, String title, String writing) throws InternalServerError, AddNothingError {
+        try {
+            User user = userRepository.getByUsername(username);
+            int user_id = user.getId();
+            AddNothingError.isAdded(writing.length() == 0, NOTE_IS_NOT_ADDED_MESSAGE);
+
+            noteRepository.writeDownSomeText(user_id, title, writing);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InternalServerError(INTERNAL_PROBLEM_MESSAGE);
+        }
+
+    }
+
+    public void removeAll(String username) throws InternalServerError, noteExistenceCheckError, InvalidParameterError {
+        try {
+            User user = userRepository.getByUsername(username);
+            int user_id = user.getId();
+            ArrayList<Note> note = noteRepository.getNote(user_id);
+            noteExistenceCheckError.isAvailableNotes(note == null, NOTE_DOES_NOT_EXIST_MESSAGE);
+            noteRepository.delete(user_id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InternalServerError(INTERNAL_PROBLEM_MESSAGE);
+        }
+
+    }
+
+
+    public ArrayList<Note> seeNotes(String username) throws InternalServerError, NoteNotFoundError {
+        ArrayList<Note> note;
+        try {
+            User user = userRepository.getByUsername(username);
+            int userId = user.getId();
+            note = noteRepository.getNote(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new InternalServerError(INTERNAL_PROBLEM_MESSAGE);
+        }
+        NoteNotFoundError.isAvailable(note == null, NOTE_DOES_NOT_EXIST_MESSAGE);
+        return note;
+
+
+    }
+
+
     public User changingPassword(String username, String oldPassword, String newPassword, String confirmingPassword) throws SQLException, IllegalParametersForPasswordError, UserDataNotFoundError, PasswordChangingError, AccessDeniedError, InternalServerError {
         User user = null;
         try {
@@ -155,7 +207,7 @@ public class UserManager {
     public User Login(String username, String password) throws SQLException, UserDataNotFoundError, InternalServerError, UnverifiedException {
         try {
             User user = userRepository.getByUsername(username);
-            UserDataNotFoundError.checkUserExistence(user == null||!Md5Encoder.matches(password,user.getPassword()), INVALID_CREDENTIALS_MESSAGE);
+            UserDataNotFoundError.checkUserExistence(user == null || !Md5Encoder.matches(password, user.getPassword()), INVALID_CREDENTIALS_MESSAGE);
             UnverifiedException.check(user.getStatus() != 1, UNVERIFIED_MESSAGE);
             InternalServerError.check(user == null, INTERNAL_PROBLEM_MESSAGE);
             return user;
