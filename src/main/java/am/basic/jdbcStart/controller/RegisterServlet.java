@@ -58,6 +58,8 @@ public class RegisterServlet extends HttpServlet {
             invalidParameterError.printStackTrace();
             request.setAttribute(PARAMETER_MESSAGE_ATTRIBUTE_KEY, INVALID_USERNAME_MESSAGE);
             request.getRequestDispatcher(REGISTRATION_PAGE).forward(request, response);
+        }catch(RuntimeException e){
+            e.printStackTrace();
         }
 
         request.setAttribute(PARAMETER_MESSAGE_ATTRIBUTE_KEY, SUCCESSFUL_REGISTER_MESSAGE);

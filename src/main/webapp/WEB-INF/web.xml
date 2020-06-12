@@ -10,11 +10,6 @@
     </welcome-file-list>
 
 
-
-
-
-
-
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>am.basic.jdbcStart.controller.LoginServlet</servlet-class>
@@ -26,23 +21,25 @@
     </servlet-mapping>
 
 
-
     <servlet>
-        <servlet-name>Note</servlet-name>
-        <servlet-class>am.basic.jdbcStart.controller.NoteServlet</servlet-class>
+        <servlet-name>Comment</servlet-name>
+        <servlet-class>am.basic.jdbcStart.controller.AddCommentServlet</servlet-class>
     </servlet>
     ​
     <servlet-mapping>
-        <servlet-name>Note</servlet-name>
-        <url-pattern>/note</url-pattern>
+        <servlet-name>Comment</servlet-name>
+        <url-pattern>/secure/add-comment</url-pattern>
     </servlet-mapping>
 
-
-
-
-
-
-
+    <servlet>
+        <servlet-name>Delete</servlet-name>
+        <servlet-class>am.basic.jdbcStart.controller.DeleteCommentServlet</servlet-class>
+    </servlet>
+    ​
+    <servlet-mapping>
+        <servlet-name>Delete</servlet-name>
+        <url-pattern>/secure/delete-comment</url-pattern>
+    </servlet-mapping>
 
 
     <servlet>
@@ -77,8 +74,6 @@
     </servlet-mapping>
 
 
-
-
     <servlet>
         <servlet-name>VerificationServlet</servlet-name>
         <servlet-class>am.basic.jdbcStart.controller.VerificationServlet</servlet-class>
@@ -88,8 +83,6 @@
         <servlet-name>VerificationServlet</servlet-name>
         <url-pattern>/verify</url-pattern>
     </servlet-mapping>
-
-
 
 
     <servlet>
@@ -114,7 +107,6 @@
     </servlet-mapping>
 
 
-
     <servlet>
         <servlet-name>ResendCode</servlet-name>
         <servlet-class>am.basic.jdbcStart.controller.SendCodeAnewServlet</servlet-class>
@@ -124,8 +116,6 @@
         <servlet-name>ResendCode</servlet-name>
         <url-pattern>/resend</url-pattern>
     </servlet-mapping>
-
-
 
 
     <servlet>

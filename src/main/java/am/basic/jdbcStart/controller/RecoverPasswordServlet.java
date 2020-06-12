@@ -34,6 +34,8 @@ public class RecoverPasswordServlet extends HttpServlet {
             e.printStackTrace();
             request.setAttribute(PARAMETER_MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(RECOVER_PASSWORD_PAGE).forward(request, response);
+        }catch(RuntimeException e){
+            e.printStackTrace();
         }
     }
 }

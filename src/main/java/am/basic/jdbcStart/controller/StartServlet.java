@@ -26,7 +26,6 @@ public class StartServlet extends HttpServlet {
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Cookie remCookie = CookieUtil.getByName(request, REMEMBER_TOKEN_COOKIE_KEY);
-        Cookie addCookie = CookieUtil.getByName(request, ADD_COOKIE_NAME);
 
         if (remCookie == null) {
             response.sendRedirect(INDEX_PAGE);
@@ -47,7 +46,6 @@ public class StartServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute(PARAMETER_USER_ATTRIBUTE_KEY, user);
             remCookie.setMaxAge(60 * 60 * 24 * 30);
-            addCookie.setMaxAge(60 * 60 * 24 * 30);
             response.sendRedirect(HOME_PAGE);
 
 

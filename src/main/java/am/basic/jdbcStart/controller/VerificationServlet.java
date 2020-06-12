@@ -46,6 +46,8 @@ public class VerificationServlet extends HttpServlet {
                 e.printStackTrace();
             } catch (InternalServerError internalServerError) {
                 internalServerError.printStackTrace();
+            }catch(RuntimeException e){
+                e.printStackTrace();
             }
             request.getRequestDispatcher(VERIFY_USER_PAGE).forward(request, response);
         }

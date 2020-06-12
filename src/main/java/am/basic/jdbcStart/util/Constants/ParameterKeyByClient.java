@@ -12,15 +12,14 @@ public interface ParameterKeyByClient {
     String PARAMETER_CHANGING_PASSWORD_KEY = "newPassword";
     String PARAMETER_CONFIRMING_PASSWORD_KEY = "confirmPassword";
     String PARAMETER_CODE_KEY = "code";
-    //BUTTON
-    String PARAMETER_SUBMIT_BUTTON_KEY = "submit";
-    String PARAMETER_CLICK_BUTTON_KEY="click";
-    ///
-    String PARAMETER_TITLE_KEY="title";
-    String PARAMETER_TEXT_KEY="text";
-    String PARAMETER_CLICKR_KEY="clickR";
-    String ADD_COOKIE_NAME = "addingTextCookie";
-    String NOTE_GET_KEY="NOTE";
+
+
+
+    String PARAMETER_TITLE_KEY = "title";
+    String PARAMETER_NOTE_KEY = "note";
+    String PARAMETER_ID_KEY="id";
+
+
 
 
 }

@@ -59,6 +59,8 @@ public class PasswordChangeServlet extends HttpServlet {
             request.getRequestDispatcher(HOME_PAGE).forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
+        }catch(RuntimeException e){
+            e.printStackTrace();
         }
 
     }

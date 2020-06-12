@@ -1,7 +1,7 @@
 package am.basic.jdbcStart.util.Constants;
 
 
-import com.sun.scenario.effect.impl.sw.java.JSWPerspectiveTransformPeer;
+
 
 public interface Message {
     String DUPLICATE_USER_MESSAGE = "this username already exists please try again";
@@ -23,7 +23,10 @@ public interface Message {
     String SESSION_EXPIRED_MESSAGE = "Your session expired please log in again";
     String UNVERIFIED_MESSAGE = "Your account is not verified,please verify !";
     String SUCCESSFULLY_ADDED_NOTE = "congrats! your note is added";
+
     String NOTE_IS_NOT_ADDED_MESSAGE = "you haven't added any note ,please try again";
+    String TITLE_IS_NOT_ADDED_MESSAGE = "you haven't added any title ,please try again";
+
     String NOTE_DOES_NOT_EXIST_MESSAGE = "there is no note";
     String NOTES_HAS_SUCCESSFULLY_BEEN_ERASED="your all notes are deleted";
 }

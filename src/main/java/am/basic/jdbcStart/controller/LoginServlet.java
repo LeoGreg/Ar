@@ -27,7 +27,6 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter(PARAMETER_USERNAME_KEY);
         String password = request.getParameter(PARAMETER_PASSWORD_KEY);
         String rememberMe = request.getParameter(PARAMETER_REMEMBER_ATTRIBUTE_KEY);
-        String submit = request.getParameter(PARAMETER_SUBMIT_BUTTON_KEY);//login submit
         try {
             InvalidParameterError.checkParameters(username == null || username.length() < 5, INVALID_USERNAME_MESSAGE);
             InvalidParameterError.checkParameters(PasswordValidatorDepartment.checkPassword(password), INVALID_PASSWORD_MESSAGE);
@@ -40,11 +39,7 @@ public class LoginServlet extends HttpServlet {
                 cookie.setMaxAge(60 * 60 * 24 * 30);
                 response.addCookie(cookie);
             }
-            if (submit != null) {
-                Cookie cookie = new Cookie(ADD_COOKIE_NAME, Encryptor.encrypt(username));
-                cookie.setMaxAge(60 * 60 * 24 * 30);
-                response.addCookie(cookie);
-            }
+
 
 
             response.sendRedirect(HOME_PAGE);

@@ -1,9 +1,7 @@
 package am.basic.jdbcStart.service;
 
-import am.basic.jdbcStart.model.Note;
 import am.basic.jdbcStart.model.User;
 import am.basic.jdbcStart.model.exceptions.*;
-import am.basic.jdbcStart.repository.NoteRepository;
 import am.basic.jdbcStart.repository.UserRepository;
 import am.basic.jdbcStart.util.*;
 import am.basic.jdbcStart.util.Encoding.Md5Encoder;
@@ -11,8 +9,6 @@ import am.basic.jdbcStart.util.Encoding.Md5Encoder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import static am.basic.jdbcStart.util.Constants.Message.*;
 

@@ -33,6 +33,8 @@ public class SendCodeAnewServlet extends HttpServlet {
             request.setAttribute(PARAMETER_MESSAGE_ATTRIBUTE_KEY,i.getMessage());
             request.setAttribute(PARAMETER_USERNAME_KEY,username);
             request.getRequestDispatcher(VERIFY_USER_PAGE).forward(request,response);
+        }catch(RuntimeException e){
+            e.printStackTrace();
         }
 
     }

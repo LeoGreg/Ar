@@ -10,7 +10,7 @@ public interface PagesLinks {
     String RECOVER_PASSWORD_PAGE = "/recover-password.jsp";
     String VERIFY_USER_PAGE = "/verification.jsp";
     String START_URL = "/start";
-    String NOTE_READ_PAGE = "/read.jsp";
+
 
 
 }

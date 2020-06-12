@@ -60,5 +60,6 @@
     submit:<input type="submit" name="submit" >
 </form>
 
+<jsp:include page="/secure/comments.jsp"/>
 </body>
 </html>

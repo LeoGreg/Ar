@@ -31,6 +31,8 @@ public class PasswordForgetServlet extends HttpServlet {
             e.printStackTrace();
             request.setAttribute(PARAMETER_MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(FORGET_PASSWORD_PAGE).forward(request, response);
+        }catch(RuntimeException e){
+            e.printStackTrace();
         }
     }
 }
