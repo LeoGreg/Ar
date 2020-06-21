@@ -3,11 +3,9 @@ package am.basic.jdbcStart.repository.impl.jdbc;
 import am.basic.jdbcStart.model.Comment;
 
 import am.basic.jdbcStart.repository.impl.CommentRepository;
-import am.basic.jdbcStart.util.DataSource;
 import lombok.Data;
 
-import javax.security.enterprise.credential.CallerOnlyCredential;
-import java.sql.Connection;
+import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,29 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 
-    <bean name="dataSource" class="am.basic.jdbcStart.util.DataSource">
-        <property name="url" value="jdbc:mysql://localhost:3306/test"/>
+       default-init-method="onCreate">
+
+
+    <!--    1.  at first line write this and project will return every method from everywhere,where there are methods which -->
+    <!--        have the same METHOD_NAME name-->
+    <!--        default-init-method="METHOD_NAME"> -->
+    <!--    2.  if we change default scope 's singleton to prototype between name and class
+                so it'll create different addresses scope="prototype"-->
+    <!--        it's done by large for methods which have synchronised key on them-->
+    <!--    3.  if we don't want to use default-init-method this key at first line so we can specialise -->
+    <!--        unique methods for every class putting this key after class word init-method=" name "-->
+
+
+    <bean name="datasource" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
+        <property name="url" value="dbc:mysql://localhost:3306/test"/>
         <property name="username" value="root"/>
         <property name="password" value=""/>
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
     </bean>
 
+    <bean name="userRepositoryJpaIml" class="am.basic.jdbcStart.repository.impl.jpa.UserRepositoryJpaImpl"/>
 
-    <bean name="userRepositoryJpa" class="am.basic.jdbcStart.repository.impl.jpa.UserRepositoryJpaImpl" init-method="onCreate"/>
+    <bean name="userRepositoryJdbcImpl" class="am.basic.jdbcStart.repository.impl.jdbc.UserRepositoryJdbcImpl">
+        <constructor-arg name="dataSource" ref="datasource"/>
+        <!--        4. connection by passing argument through constructor
+                        user repository jdbc has const-->
+    </bean>
 
+    <bean name="commentRepositoryJpaIml" class="am.basic.jdbcStart.repository.impl.jpa.CommentRepositoryJpaIml"/>
 
-    <bean name="userRepositoryJdbc" class="am.basic.jdbcStart.repository.impl.jdbc.UserRepositoryJdbcImpl">
-        <constructor-arg name="dataSource" ref="dataSource"/>
+    <bean name="commentRepositoryJdbcImpl" class="am.basic.jdbcStart.repository.impl.jdbc.CommentRepositoryJdbcImpl">
+        <property name="dataSource" ref="datasource"/>
+        <!--        5.   use property name if want to pass argument through setter
+                         comment rep jdbc doesn't have a const
+                         but has a setter-->
     </bean>
 
 
-    <bean name="CommentRepositoryJdbc" class="am.basic.jdbcStart.repository.impl.jdbc.CommentRepositoryJdbcImpl">
-        <property name="dataSource" ref="dataSource"/>
+    <bean name="blueEye" class="am.basic.jdbcStart.Robat.Eye.BlueEyes"/>
+    <bean name="greenEye" class="am.basic.jdbcStart.Robat.Eye.GreenEye"/>
+    <bean name="redEye" class="am.basic.jdbcStart.Robat.Eye.RedEyes"/>
+    <bean name="samsungFeet" class="am.basic.jdbcStart.Robat.Feet.SamsungFeet"/>
+    <bean name="sonyFeet" class="am.basic.jdbcStart.Robat.Feet.SonyFeet"/>
+    <bean name="hand" class="am.basic.jdbcStart.Robat.Hand.Hand"/>
+    <bean name="head" class="am.basic.jdbcStart.Robat.Head.Head"/>
+    <bean name="robot" class="am.basic.jdbcStart.Robat.Robot">
+        <constructor-arg name="eye" ref="redEye"/>
+        <constructor-arg name="feet" ref="samsungFeet"/>
+        <constructor-arg name="hand" ref="hand"/>
+        <constructor-arg name="head" ref="head"/>
     </bean>
 
 
+    <bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
+
+    <bean name="userRepositorySpringJdbc"
+          class="am.basic.jdbcStart.repository.impl.spring.jdbc.UserRepositorySpringJdbcImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
 
 
 </beans>

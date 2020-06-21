@@ -6,8 +6,9 @@ import am.basic.jdbcStart.model.exceptions.DuplicateDataException;
 import am.basic.jdbcStart.model.exceptions.NotFoundException;
 import am.basic.jdbcStart.model.exceptions.UnverifiedException;
 
+
 public interface UserServiceInterface {
-    void register(User user) throws DuplicateDataException;
+   void register(User user) throws DuplicateDataException;
 
     User login(String username, String password) throws NotFoundException, UnverifiedException;
 

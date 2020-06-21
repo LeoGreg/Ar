@@ -4,8 +4,8 @@ import am.basic.jdbcStart.model.User;
 import am.basic.jdbcStart.model.exceptions.DatabaseException;
 
 import am.basic.jdbcStart.repository.impl.UserRepository;
-import am.basic.jdbcStart.util.DataSource;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +20,13 @@ public class UserRepositoryJdbcImpl implements UserRepository {
 
     public UserRepositoryJdbcImpl(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+    //    private List<Integer> list;
+
+    public void onCreate() {
+//        list = new ArrayList<>();
+//        list.add(getById(1).getId());
+        System.out.println("creating user repository jdbc");
     }
 
     @Override
@@ -101,7 +108,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findByNameAndSurname(String name, String surname)   {
+    public List<User> findByNameAndSurname(String name, String surname) {
         try {
             List<User> users = new ArrayList<>();
             Connection connection = dataSource.getConnection();
@@ -122,7 +129,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
-    public User getById(int id)   {
+    public User getById(int id) {
         try {
             User user = null;
             Connection connection = dataSource.getConnection();
@@ -141,7 +148,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
 
-    public User getByUsernameAndPassword(String username, String password)  {
+    public User getByUsernameAndPassword(String username, String password) {
         try {
             User user = null;
             Connection connection = dataSource.getConnection();
@@ -163,7 +170,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
-    public User getByUsername(String username)  {
+    public User getByUsername(String username) {
         try {
             User user = null;
             Connection connection = dataSource.getConnection();
@@ -184,7 +191,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
-    public void delete(User user)  {
+    public void delete(User user) {
         try {
             Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM user WHERE student_id = ?");

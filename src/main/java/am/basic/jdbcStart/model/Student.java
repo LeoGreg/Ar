@@ -1,14 +1,14 @@
 package am.basic.jdbcStart.model;
-
 import lombok.Data;
-
 import javax.persistence.*;
-import javax.ws.rs.ext.ParamConverter;
 import java.util.List;
 
 @Data
 @Entity
 public class Student {
+//    @Nullable wrong when input is null
+//    @NotEmpty wrong for "" and null
+//    @NotBlank wrong for "    "   "" and null
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class Student {
 
 
     @ManyToMany(fetch =FetchType.LAZY)
-    @JoinTable(name = "students_teaches",
+    @JoinTable(name = "students_teachers",
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"))
     private List<Teacher> teachers;
