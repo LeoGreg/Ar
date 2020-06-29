@@ -1,9 +1,10 @@
 package am.basic.jdbcStart.repository.impl.jdbc;
 
 import am.basic.jdbcStart.model.User;
-import am.basic.jdbcStart.model.exceptions.DatabaseException;
+import am.basic.jdbcStart.filter.exceptions.DatabaseException;
 
 import am.basic.jdbcStart.repository.impl.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

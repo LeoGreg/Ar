@@ -2,11 +2,11 @@ package am.basic.jdbcStart.controller;
 
 import am.basic.jdbcStart.model.Comment;
 import am.basic.jdbcStart.model.User;
-import am.basic.jdbcStart.model.exceptions.InternalServerException;
-import am.basic.jdbcStart.model.exceptions.InvalidParametersException;
+import am.basic.jdbcStart.filter.exceptions.InternalServerException;
+import am.basic.jdbcStart.filter.exceptions.InvalidParametersException;
 import am.basic.jdbcStart.repository.impl.jpa.CommentRepositoryJpaIml;
+import am.basic.jdbcStart.repository.impl.spring.jpa.CommentRepositorySpringJpaImpl;
 import am.basic.jdbcStart.service.CommentService;
-import am.basic.jdbcStart.service.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +20,7 @@ import static am.basic.jdbcStart.util.constants.ParameterKeys.*;
 
 public class AddCommentServlet extends HttpServlet {
 
-    private CommentService commentService = new CommentService(new CommentRepositoryJpaIml());
+    private CommentService commentService = new CommentService();
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -39,7 +39,7 @@ public class AddCommentServlet extends HttpServlet {
             commentService.add(comment);
 
             response.sendRedirect(HOME_PAGE);
-        } catch (InvalidParametersException | InternalServerException e) {
+        } catch (InvalidParametersException  e) {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(HOME_PAGE).forward(request, response);
         }

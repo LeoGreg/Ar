@@ -1,9 +1,8 @@
 package am.basic.jdbcStart.controller;
 
-import am.basic.jdbcStart.model.exceptions.AccessDeniedException;
-import am.basic.jdbcStart.model.exceptions.InvalidParametersException;
-import am.basic.jdbcStart.model.exceptions.NotFoundException;
-import am.basic.jdbcStart.service.ServiceFactory;
+import am.basic.jdbcStart.filter.exceptions.AccessDeniedException;
+import am.basic.jdbcStart.filter.exceptions.InvalidParametersException;
+import am.basic.jdbcStart.filter.exceptions.NotFoundException;
 import am.basic.jdbcStart.service.UserService;
 
 import javax.servlet.ServletException;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static am.basic.jdbcStart.util.constants.Messages.*;
 import static am.basic.jdbcStart.util.constants.Pages.INDEX_PAGE;
@@ -20,7 +20,7 @@ import static am.basic.jdbcStart.util.constants.ParameterKeys.*;
 public class VerificationServlet extends HttpServlet {
 
 
-    private UserService userService = ServiceFactory.getUserService();
+    private UserService userService = new UserService();
 
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,7 +40,7 @@ public class VerificationServlet extends HttpServlet {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, VERIFICATION_SUCCESS_MESSAGE);
             request.getRequestDispatcher(INDEX_PAGE).forward(request, response);
 
-        } catch (InvalidParametersException | NotFoundException   | AccessDeniedException e) {
+        } catch (InvalidParametersException | NotFoundException | AccessDeniedException | SQLException e) {
             request.setAttribute(USERNAME_PARAM_KEY, username);
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(VERIFICATION_PAGE).forward(request, response);

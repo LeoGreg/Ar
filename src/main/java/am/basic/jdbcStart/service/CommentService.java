@@ -1,47 +1,40 @@
 package am.basic.jdbcStart.service;
 
 import am.basic.jdbcStart.model.Comment;
-import am.basic.jdbcStart.model.exceptions.InternalServerException;
+import am.basic.jdbcStart.filter.exceptions.InternalServerException;
 import am.basic.jdbcStart.repository.impl.CommentRepository;
+import am.basic.jdbcStart.repository.impl.spring.jpa.CommentRepositorySpringJpaImpl;
 import am.basic.jdbcStart.service.serviceInterfaces.CommentServiceInterface;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import static am.basic.jdbcStart.util.constants.Messages.INTERNAL_ERROR_MESSAGE;
 
-public class CommentService implements CommentServiceInterface {
+@Transactional
+public class CommentService {
 
+    private CommentRepositorySpringJpaImpl commentRepository;
 
-    private CommentRepository commentRepository ;
-
-    public CommentService(CommentRepository commentRepository) {
-        this.commentRepository=commentRepository;
+    public CommentRepositorySpringJpaImpl getCommentRepository() {
+        return commentRepository;
     }
 
+    public void setCommentRepository(CommentRepositorySpringJpaImpl commentRepository) {
+        this.commentRepository = commentRepository;
+    }
 
-
-    @Override
     public List<Comment> getByUserId(int userId) throws SQLException {
         return commentRepository.getByUserId(userId);
     }
-    @Override
-    public void add(Comment comment) throws InternalServerException {
-        try {
-            commentRepository.save(comment);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            throw new InternalServerException(INTERNAL_ERROR_MESSAGE);
-        }
+
+    public void add(Comment comment) {
+        commentRepository.save(comment);
     }
-    @Override
+
     public void delete(int id) throws InternalServerException {
-        try {
-            Comment comment = commentRepository.getById(id);
-            commentRepository.delete(comment);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            throw new InternalServerException(INTERNAL_ERROR_MESSAGE);
-        }
+        Comment comment = commentRepository.getById(id);
+        commentRepository.delete(comment);
     }
 }

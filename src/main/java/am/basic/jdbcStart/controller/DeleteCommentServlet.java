@@ -1,9 +1,9 @@
 package am.basic.jdbcStart.controller;
 
-import am.basic.jdbcStart.model.exceptions.InternalServerException;
+import am.basic.jdbcStart.filter.exceptions.InternalServerException;
 import am.basic.jdbcStart.repository.impl.jpa.CommentRepositoryJpaIml;
+import am.basic.jdbcStart.repository.impl.spring.jpa.CommentRepositorySpringJpaImpl;
 import am.basic.jdbcStart.service.CommentService;
-import am.basic.jdbcStart.service.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +17,7 @@ import static am.basic.jdbcStart.util.constants.ParameterKeys.MESSAGE_ATTRIBUTE_
 
 public class DeleteCommentServlet extends HttpServlet {
 
-    private CommentService commentService = new CommentService(new CommentRepositoryJpaIml());
+    private CommentService commentService = new CommentService();
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

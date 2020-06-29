@@ -1,11 +1,10 @@
 package am.basic.jdbcStart.controller;
 
 import am.basic.jdbcStart.model.User;
-import am.basic.jdbcStart.model.exceptions.AccessDeniedException;
-import am.basic.jdbcStart.model.exceptions.InvalidParametersException;
-import am.basic.jdbcStart.model.exceptions.NotFoundException;
-import am.basic.jdbcStart.model.exceptions.UnauthorizedException;
-import am.basic.jdbcStart.service.ServiceFactory;
+import am.basic.jdbcStart.filter.exceptions.AccessDeniedException;
+import am.basic.jdbcStart.filter.exceptions.InvalidParametersException;
+import am.basic.jdbcStart.filter.exceptions.NotFoundException;
+import am.basic.jdbcStart.filter.exceptions.UnauthorizedException;
 import am.basic.jdbcStart.service.UserService;
 import am.basic.jdbcStart.util.PasswordValidator;
 
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static am.basic.jdbcStart.util.constants.Messages.*;
 import static am.basic.jdbcStart.util.constants.Pages.HOME_PAGE;
@@ -23,7 +23,7 @@ import static am.basic.jdbcStart.util.constants.ParameterKeys.*;
 public class ChangePasswordServlet extends HttpServlet {
 
 
-    private UserService userService = ServiceFactory.getUserService();
+    private UserService userService = new UserService();
 
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,6 +53,8 @@ public class ChangePasswordServlet extends HttpServlet {
         } catch (NotFoundException | InvalidParametersException | AccessDeniedException e) {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, e.getMessage());
             request.getRequestDispatcher(HOME_PAGE).forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }

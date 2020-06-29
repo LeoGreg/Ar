@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
 
        default-init-method="onCreate">
 
-
-    <!--    1.  at first line write this and project will return every method from everywhere,where there are methods which -->
-    <!--        have the same METHOD_NAME name-->
-    <!--        default-init-method="METHOD_NAME"> -->
     <!--    2.  if we change default scope 's singleton to prototype between name and class
-                so it'll create different addresses scope="prototype"-->
+                 so it'll create different addresses scope="prototype"-->
     <!--        it's done by large for methods which have synchronised key on them-->
     <!--    3.  if we don't want to use default-init-method this key at first line so we can specialise -->
     <!--        unique methods for every class putting this key after class word init-method=" name "-->
 
 
     <bean name="datasource" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
-        <property name="url" value="dbc:mysql://localhost:3306/test"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/test"/>
         <property name="username" value="root"/>
         <property name="password" value=""/>
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="suppressClose" value="true"/>
     </bean>
 
     <bean name="userRepositoryJpaIml" class="am.basic.jdbcStart.repository.impl.jpa.UserRepositoryJpaImpl"/>
@@ -34,25 +31,10 @@
     <bean name="commentRepositoryJpaIml" class="am.basic.jdbcStart.repository.impl.jpa.CommentRepositoryJpaIml"/>
 
     <bean name="commentRepositoryJdbcImpl" class="am.basic.jdbcStart.repository.impl.jdbc.CommentRepositoryJdbcImpl">
-        <property name="dataSource" ref="datasource"/>
+        <constructor-arg name="dataSource" ref="datasource"/>
         <!--        5.   use property name if want to pass argument through setter
                          comment rep jdbc doesn't have a const
                          but has a setter-->
-    </bean>
-
-
-    <bean name="blueEye" class="am.basic.jdbcStart.Robat.Eye.BlueEyes"/>
-    <bean name="greenEye" class="am.basic.jdbcStart.Robat.Eye.GreenEye"/>
-    <bean name="redEye" class="am.basic.jdbcStart.Robat.Eye.RedEyes"/>
-    <bean name="samsungFeet" class="am.basic.jdbcStart.Robat.Feet.SamsungFeet"/>
-    <bean name="sonyFeet" class="am.basic.jdbcStart.Robat.Feet.SonyFeet"/>
-    <bean name="hand" class="am.basic.jdbcStart.Robat.Hand.Hand"/>
-    <bean name="head" class="am.basic.jdbcStart.Robat.Head.Head"/>
-    <bean name="robot" class="am.basic.jdbcStart.Robat.Robot">
-        <constructor-arg name="eye" ref="redEye"/>
-        <constructor-arg name="feet" ref="samsungFeet"/>
-        <constructor-arg name="hand" ref="hand"/>
-        <constructor-arg name="head" ref="head"/>
     </bean>
 
 
@@ -65,5 +47,80 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
+    <bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="datasource"/>
+        <property name="packagesToScan" value="am.basic.jdbcStart.model"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect.storage_engine">innodb</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean name="transRepOfStudent" class="am.basic.jdbcStart.repository.impl.spring.jpa.studentEditingInfo.TransactionRepositoryOfStudent">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean name="walletOfStudent" class="am.basic.jdbcStart.repository.impl.spring.jpa.studentEditingInfo.WalletOfStudent">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean name="commentRepSpringJpa"
+          class="am.basic.jdbcStart.repository.impl.spring.jpa.CommentRepositorySpringJpaImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean name="commentService" class="am.basic.jdbcStart.service.CommentService">
+        <property name="commentRepository" ref="commentRepSpringJpa"/>
+    </bean>
+    <bean name="studentSpringJpaImpl" class="am.basic.jdbcStart.repository.impl.spring.jpa.StudentRepSpringJpa">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="walletOfStudent" ref="walletOfStudent"/>
+        <property name="transactionRepositoryOfStudent" ref="transRepOfStudent"/>
+        <property name="studentTransferInfo" ref="studentTransInfo"/>
+    </bean>
+
+    <bean name="studentTransInfo" class="am.basic.jdbcStart.repository.impl.spring.jpa.studentEditingInfo.StudentTransferInfo">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean name="studentService" class="am.basic.jdbcStart.service.StudentService">
+        <property name="studentRepSpringJpa" ref="studentSpringJpaImpl"/>
+    </bean>
+
+    <bean name="userService" class="am.basic.jdbcStart.service.UserService">
+        <property name="userRepository" ref="userRepositorySpringJpaImpl"/>
+    </bean>
+    <bean name="userRepositorySpringJpaImpl"
+          class="am.basic.jdbcStart.repository.impl.spring.jpa.UserRepositorySpringJpaImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+    <bean name="logRepository" class="am.basic.jdbcStart.repository.impl.pay.LogRepository">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean name="transactionRepository" class="am.basic.jdbcStart.repository.impl.pay.TransactionRepository">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean name="walletRepository" class="am.basic.jdbcStart.repository.impl.pay.WalletRepository">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean name="paymentService" class="am.basic.jdbcStart.repository.impl.pay.PaymentService">
+        <constructor-arg name="logRepository" ref="logRepository"/>
+        <constructor-arg name="transactionRepository" ref="transactionRepository"/>
+        <constructor-arg name="walletRepository" ref="walletRepository"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+    <bean name="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!--    up is written cuz transactions need to be aware of sessionFactory-->
+    <!--below is written to provide annotations of transactions-->
+    <tx:annotation-driven/>
 
 </beans>

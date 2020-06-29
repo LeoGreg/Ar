@@ -1,10 +1,7 @@
 package am.basic.jdbcStart.controller;
 
 import am.basic.jdbcStart.model.User;
-import am.basic.jdbcStart.model.exceptions.DuplicateDataException;
-import am.basic.jdbcStart.model.exceptions.InvalidParametersException;
-import am.basic.jdbcStart.repository.impl.jpa.UserRepositoryJpaImpl;
-import am.basic.jdbcStart.service.ServiceFactory;
+import am.basic.jdbcStart.filter.exceptions.InvalidParametersException;
 import am.basic.jdbcStart.service.UserService;
 import am.basic.jdbcStart.util.PasswordValidator;
 
@@ -21,7 +18,7 @@ import static am.basic.jdbcStart.util.constants.ParameterKeys.*;
 
 public class RegisterServlet extends HttpServlet {
 
-    UserService userService;
+    UserService userService = new UserService();
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -46,8 +43,8 @@ public class RegisterServlet extends HttpServlet {
             request.setAttribute(USERNAME_PARAM_KEY, username);
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, REGISTRATION_SUCCESS_MESSAGE);
             request.getRequestDispatcher(VERIFICATION_PAGE).forward(request, response);
-
-        } catch (DuplicateDataException | InvalidParametersException ex) {
+// duplicat sql below add
+        } catch (InvalidParametersException ex) {
             request.setAttribute(MESSAGE_ATTRIBUTE_KEY, ex.getMessage());
             request.getRequestDispatcher(REGISTER_PAGE).forward(request, response);
         }

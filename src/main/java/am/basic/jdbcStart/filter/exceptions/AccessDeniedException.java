@@ -1,4 +1,4 @@
-package am.basic.jdbcStart.model.exceptions;
+package am.basic.jdbcStart.filter.exceptions;
 
 public class AccessDeniedException extends Exception {
 

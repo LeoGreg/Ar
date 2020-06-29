@@ -3,6 +3,7 @@ package am.basic.jdbcStart.repository.impl.jpa;
 import am.basic.jdbcStart.model.User;
 
 import am.basic.jdbcStart.repository.impl.UserRepository;
+
 import am.basic.jdbcStart.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -106,7 +107,6 @@ public class UserRepositoryJpaImpl implements UserRepository {
         nativeQuery.setParameter("username", username);
         User user = nativeQuery.uniqueResult();
         return user;
-
     }
 
     public User getByUsernameCriteria(String username) {

@@ -42,6 +42,9 @@ public class HibernateUtil {
                 configuration.addAnnotatedClass(Stock.class);
                 configuration.addAnnotatedClass(Card.class);
                 configuration.addAnnotatedClass(Teacher.class);
+                configuration.addAnnotatedClass(Buyer.class);
+                configuration.addAnnotatedClass(SaleCard.class);
+                configuration.addAnnotatedClass(SaleStore.class);
 
 //                configuration.addAnnotatedClass(Student.class);
 //                configuration.addAnnotatedClass(Fakultet.class);
